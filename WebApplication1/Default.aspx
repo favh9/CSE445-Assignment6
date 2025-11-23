@@ -42,9 +42,9 @@
                 by Fausto Velazquez -->
             <div>
                 <h3>Login + CAPTCHA by Fausto Velazquez</h3>
-                <p>Note: Enter your username and password, then enter the correct captcha. 
-                    <br />If the credentials and captcha are correct, you will be redirected to the 
+                <p>Please use the following textboxes to login. If the credentials and captcha are correct, you will be redirected to the 
                     <br />Member or Staff page based on your role.
+                    <br />Note: Enter your username and password, then enter the correct captcha.
                 </p>
                 <div>
                     <!-- Login -->
@@ -155,21 +155,16 @@
                         </td>
                     </tr>
                 </table>
-                
-                
-                <br />
-                
-                
             </div>
 
             <!-- Email Service 
                 by Faris Abujolban -->
             <div>
                 <h3>Email service by Faris Abujolban</h3>
-                <p>Note: use the textboxes below to send an email.
-                    <br />Enter the message you want to send by email, 
+                <p>Enter the message you want to send by email, 
                     <br />then enter the email you want the message to be sent to.
                     <br />Finally, click the Send button.
+                    <br />Note: use the textboxes below to send an email.
                 </p>
                 <table cellpaddiong="4">
                     <tr>
@@ -198,7 +193,7 @@
                     </tr>
                 </table>
             </div>
-            <!-- Encryption Service 
+            <!-- Encryption/Decryption
                 by Faris Abujolban -->
             <div>
                 <!-- Encryption -->
@@ -268,6 +263,41 @@
                         </tr>
                     </table>                    
                 </div>
+            </div>
+            <!-- Solar Service
+                by Naif Lohani -->
+            <div>
+                <h3>Solar Service by Naif Lohani</h3>
+                <p>Enter the zipcode and roof area. The output is an estimate of the Annual kWh you would save,
+                    <br />should you opt in for solar panels.
+                    <br />Note: Please enter only numerical values.
+                </p>
+                <table>
+                    <tr>
+                        <td>
+                            <asp:Label ID="label_zipcode" runat="server" Text="Zipcode"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="textbox_zipcode" runat="server" Text=""></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Label ID="label_roof_area" runat="server" Text="Roof area (m^2)"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="textbox_roof_area" runat="server" Text=""></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Label ID="label_solar_output" runat="server" Text="Annual kWh"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="textbox_solar_output" runat="server" Text="" Enabled="false"></asp:TextBox>
+                        </td>
+                    </tr>
+                </table>
             </div>
             
             <!-- Contribution Table -->
