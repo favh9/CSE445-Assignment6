@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net.Configuration;
@@ -120,24 +121,33 @@ namespace WebApplication1
 
             client.BaseAddress = new Uri(BaseUrl);
 
+            string response = "";
             try
             {
                 // Send the HTTP GET request
-                string response = await client.GetStringAsync(endpoint);
+                response = await client.GetStringAsync(endpoint);
 
                 // parse JSON to extract "message"
                 var json = JObject.Parse(response);
                 string message = json["message"]?.ToString();
-
+                
                 if (message != "")
                     textbox_solarbot_output.Text = message;
                 else
                     textbox_solarbot_output.Text = "No message returned.";
             }
+            catch (JsonReaderException ex)
+            {
+                textbox_solarbot_output.Text = response;
+            }
             catch (HttpRequestException ex)
             {
                 // Handle errors
                 textbox_solarbot_output.Text = $"Error connecting to API: {ex.Message}";
+            }
+            catch (Exception ex)
+            {
+                textbox_solarbot_output.Text = response;
             }
 
         }

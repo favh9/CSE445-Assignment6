@@ -22,18 +22,18 @@ namespace ChatBotService.Controllers
             [HttpGet, Route("")]
             public async Task<IHttpActionResult> Get(string inputTxt)
             {
-
+                
                 var text = inputTxt?.Trim() ?? "";
 
                 // Check word count
                 var wordCount = text.Split(' ').Length;
                 if (wordCount > 100)
-                    return Ok("INPUT_TOO_LONG");
+                    return Ok(new { message = "The input provided exceeds the maximum allowed character limit." });
 
 
-                // Detect email-related queries
-                if (text.ToLower().Contains("email"))
-                    return Ok("EMAIL_SERVICE");
+                //// Detect email-related queries
+                //if (text.ToLower().Contains("email"))
+                //    return Ok(new { message = "EMAIL_SERVICE" });
 
                 // Basic solar topic validation
                 var keywords = new[]
@@ -45,7 +45,7 @@ namespace ChatBotService.Controllers
                 bool isSolarRelated = keywords.Any(k => text.ToLower().Contains(k));
 
                 if (!isSolarRelated)
-                    return Ok("UNRELATED_TOPIC");
+                    return Ok(new { message = "This topic seems unrelated. Please ask specific questions about solar energy." });
 
 
                 // Set up OpenAI API request

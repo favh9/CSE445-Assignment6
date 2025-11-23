@@ -193,7 +193,7 @@
                             <asp:Button ID="button_submit_email" runat="server" Text="Send" OnClick="button_submit_email_click" />
                         </td>
                         <td>
-                            <asp:TextBox ID="textbox_email_result" runat="server" Width="200" style="border:none;" Enabled="false" TextMode="MultiLine" Text="Email sent successfully to: alexvelah0109@gmail.com"></asp:TextBox>
+                            <asp:TextBox ID="textbox_email_result" runat="server" Width="200" style="border:none;" Enabled="false" TextMode="MultiLine" Text=""></asp:TextBox>
                         </td>
                     </tr>
                 </table>
