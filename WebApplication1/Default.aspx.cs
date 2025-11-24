@@ -5,27 +5,33 @@ using System.IO;
 using System.Net.Configuration;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
+using System.Web;
 using WebApplication1.ImageVerifier;
 
 namespace WebApplication1
 {
     public partial class Default : System.Web.UI.Page
     {
-        private string captchaString = "";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             ServiceClient client2 = new ServiceClient();
             //generate captcha image
-            captchaString = GetRandomString(6);
-            Stream stream = client2.GetImage(captchaString);
+            var captcha_string = GetRandomString(6);
+            Stream stream = client2.GetImage(captcha_string);
 
             MemoryStream ms = new MemoryStream();
             stream.CopyTo(ms);
-            byte[] imageBytes = ms.ToArray();
-            string base64String = Convert.ToBase64String(imageBytes);
-            image_captcha.ImageUrl = "data:image/png;base64," + base64String;
+            byte[] image_bytes = ms.ToArray();
+            string base_64_string = Convert.ToBase64String(image_bytes);
+            image_captcha.ImageUrl = "data:image/png;base64," + base_64_string;
 
             client2.Close();
+
+            // set session state
+            Session["captcha"] = captcha_string;
+
+
 
 
         }
@@ -67,10 +73,10 @@ namespace WebApplication1
         {
             EmailService.WebService1SoapClient client = new EmailService.WebService1SoapClient();
 
-            string toEmail = textbox_email_address.Text;
+            string to_email = textbox_email_address.Text;
             string message = textbox_email_content.Text;
 
-            string result = client.SendEmail(toEmail, message);
+            string result = client.SendEmail(to_email, message);
             textbox_email_result.Text = result;
 
             client.Close();
@@ -96,30 +102,34 @@ namespace WebApplication1
         {
             // WCF-based WSDL-SOAP service with two operations:
             // Stream GetImage() and GetVerifierString(string length)
-            ServiceClient client2 = new ServiceClient();
+            ServiceClient client = new ServiceClient();
             //generate captcha image
-            captchaString = GetRandomString(6);
-            Stream stream = client2.GetImage(captchaString);
+            var captcha_string = GetRandomString(6);
+            Stream stream = client.GetImage(captcha_string);
 
             MemoryStream ms = new MemoryStream();
             stream.CopyTo(ms);
-            byte[] imageBytes = ms.ToArray();
-            string base64String = Convert.ToBase64String(imageBytes);
-            image_captcha.ImageUrl = "data:image/png;base64," + base64String;
+            byte[] image_bytes = ms.ToArray();
+            string base_64_string = Convert.ToBase64String(image_bytes);
+            image_captcha.ImageUrl = "data:image/png;base64," + base_64_string;
 
-            client2.Close();
+
+            client.Close();
+
+            // set session state
+            Session["captcha"] = captcha_string;
         }
 
         protected async void button_solarbot_button_Click(object sender, EventArgs e)
         {
-            const string BaseUrl = "https://localhost:44389/";
+            const string base_url = "https://localhost:44389/";
 
             var text_input = textbox_solarbot_input.Text;
             string endpoint = $"api/chatbot/ask?inputTxt={text_input}";
 
             var client = new HttpClient();
 
-            client.BaseAddress = new Uri(BaseUrl);
+            client.BaseAddress = new Uri(base_url);
 
             string response = "";
             try
@@ -130,13 +140,13 @@ namespace WebApplication1
                 // parse JSON to extract "message"
                 var json = JObject.Parse(response);
                 string message = json["message"]?.ToString();
-                
+
                 if (message != "")
                     textbox_solarbot_output.Text = message;
                 else
                     textbox_solarbot_output.Text = "No message returned.";
             }
-            catch (JsonReaderException ex)
+            catch (JsonReaderException)
             {
                 textbox_solarbot_output.Text = response;
             }
@@ -145,11 +155,148 @@ namespace WebApplication1
                 // Handle errors
                 textbox_solarbot_output.Text = $"Error connecting to API: {ex.Message}";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 textbox_solarbot_output.Text = response;
             }
 
+        }
+
+        protected void button_store_cookie_Click(object sender, EventArgs e)
+        {
+            string cookie_name = "test_cookie";
+            string cookie_value = textbox_store_cookie.Text;
+            // Create a new cookie
+            HttpCookie cookie = new HttpCookie(cookie_name, cookie_value);
+            // Set the cookie to expire in 1 day
+            cookie.Expires = DateTime.Now.AddDays(1);
+            // Add the cookie to the response
+            Response.Cookies.Add(cookie);
+        }
+
+        protected void button_retrieve_cookie_Click(object sender, EventArgs e)
+        {
+            HttpCookie cookie = Request.Cookies["test_cookie"];
+
+            if (cookie == null)
+                textbox_output_retrieve_cookie.Text = "No cookie found.";
+            else if (cookie.Value == "")
+                textbox_output_retrieve_cookie.Text = "Cookie value is empty.";
+            else
+                textbox_output_retrieve_cookie.Text = cookie.Value;
+
+        }
+
+        protected void button_store_session_Click(object sender, EventArgs e)
+        {
+            var session_name = "test_session";
+            var session_value = textbox_store_session.Text;
+            Session[session_name] = session_value;
+        }
+
+        protected void button_retrieve_session_Click(object sender, EventArgs e)
+        {
+            var session_name = "test_session";
+            var session_value = Session[session_name].ToString();
+
+            if (session_value == null)
+                textbox_output_retrieve_session.Text = "No session found.";
+            else if (session_value == "")
+                textbox_output_retrieve_session.Text = "Session vale is empty";
+            else
+                textbox_output_retrieve_session.Text = session_value;
+        }
+
+        protected async void button_solar_Click(object sender, EventArgs e)
+        {
+            string string_zipcode = textbox_zipcode.Text;
+            string string_roof_area = textbox_roof_area.Text;
+
+            string err_msg = "Insufficient data or incorrect data.";
+
+            if (string_zipcode == "" || string_roof_area == "")
+            {
+                textbox_solar_error_output.Text = err_msg;
+                return;
+            }
+
+            if (string_zipcode.Length < 5)
+            {
+                textbox_solar_error_output.Text = err_msg;
+                return;
+            }
+
+            try
+            {
+                // Area and zipcode are numerical values
+                double area = Convert.ToDouble(string_roof_area);
+                double zipcode = Convert.ToInt64(string_zipcode);
+
+                // call Solar Web API
+                // use string_zipcode and area
+                const string base_url = "https://localhost:44308/";
+
+                string endpoint = $"api/solar/calculate?zip={string_zipcode}&roofArea={area}";
+
+                var client = new HttpClient();
+
+                client.BaseAddress = new Uri(base_url);
+
+                string response = "";
+
+                // Send the HTTP GET request
+                response = await client.GetStringAsync(endpoint);
+
+                textbox_solar_output.Text = response;
+            }
+            catch (FormatException)
+            {
+
+                textbox_solar_error_output.Text = err_msg;
+                return;
+            }
+            catch (Exception ex)
+            {
+                textbox_solar_error_output.Text = ex.Message;
+                return;
+            }
+        }
+        protected void button_cookie_session_reset_Click(Object sender, EventArgs e)
+        {
+
+            textbox_store_cookie.Text = "";
+            textbox_output_retrieve_cookie.Text = "";
+            textbox_store_session.Text = "";
+            textbox_output_retrieve_session.Text = "";
+        }
+
+        protected void button_solarbot_reset_Click(Object sender, EventArgs e)
+        {
+            textbox_solarbot_input.Text = "";
+            textbox_solarbot_output.Text = "";
+        }
+
+        protected void button_reset_encrypt_decrypt_Click(Object sender, EventArgs e)
+        {
+            textbox_encrypt_input.Text = "";
+            textbox_encrypt_result.Text = "";
+            textbox_decrypt_result.Text = "";
+        }
+        protected void button_email_reset_Click(Object sender, EventArgs e)
+        {
+
+            textbox_email_content.Text = "";
+            textbox_email_address.Text = "";
+            textbox_email_result.Text = "";
+        }
+
+        protected void button_solar_reset_Click(Object sender, EventArgs e)
+        {
+
+            textbox_zipcode.Text = "";
+            textbox_roof_area.Text = "";
+            textbox_solar_output.Text = "";
+            textbox_solar_error_output.Text = "";
         }
     }
 }

@@ -28,12 +28,12 @@
                 <table cellpadding="2">
                     <tr>
                         <td>
-                             <asp:Button ID="button_member_login" runat="server" Text="Member Login" PostBackUrl="~/Member.aspx"/>
+                             <asp:Button ID="button_member_login" runat="server" Text="Member" PostBackUrl="~/Member.aspx"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <asp:Button ID="button_staff_login" runat="server" Text="Staff Login" PostBackUrl="~/Staff.aspx"/>
+                            <asp:Button ID="button_staff_login" runat="server" Text="Staff" PostBackUrl="~/Staff.aspx"/>
                         </td>
                     </tr>
                 </table>
@@ -89,18 +89,23 @@
                 by Fausto Velazquez -->
             <div>
                 <h3>Cookie and session by Fausto Velazquez</h3>
+                <p>
+                    Please use the textboxes below to enter info you would like to store.
+                    <br />Use the Store buttons to store the info in a cookie or session.
+                    <br />Use the Retrieve buttons to retrieve the info from the cookie or session.
+                </p>
                 <table cellpadding="4">
                     <tr>
                         <td>
-                            <asp:Button ID="button_store_cookie" runat="server" Text="Store cookie"></asp:Button>
+                            <asp:Button ID="button_store_cookie" runat="server" Text="Store cookie" OnClick="button_store_cookie_Click"></asp:Button>
                         </td>
                         <td>
-                            <asp:TextBox ID="textbox_output_store_cookie" runat="server" Width="200"></asp:TextBox>
+                            <asp:TextBox ID="textbox_store_cookie" runat="server" Width="200"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <asp:Button ID="button_retrieve_cookie" runat="server" Text="Retrieve cookie"/>
+                            <asp:Button ID="button_retrieve_cookie" runat="server" Text="Retrieve cookie" OnClick="button_retrieve_cookie_Click"/>
                         </td>
                         <td>
                             <asp:TextBox ID="textbox_output_retrieve_cookie" runat="server" Width="200"></asp:TextBox>
@@ -108,21 +113,25 @@
                     </tr>
                     <tr>
                         <td>
-                             <asp:Button ID="button_store_session" runat="server" Text="Store session"></asp:Button>
+                             <asp:Button ID="button_store_session" runat="server" Text="Store session" OnClick="button_store_session_Click"></asp:Button>
                         </td>
                         <td>
-                            <asp:TextBox ID="textbox_output_store_session" runat="server" Width="200"></asp:TextBox>
+                            <asp:TextBox ID="textbox_store_session" runat="server" Width="200" ></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <asp:Button ID="button_retrieve_session" runat="server" Text="Retrieve session"/>
+                            <asp:Button ID="button_retrieve_session" runat="server" Text="Retrieve session" OnClick="button_retrieve_session_Click"/>
                         </td>
                         <td>
                             <asp:TextBox ID="textbox_output_retrieve_session" runat="server" Width="200"></asp:TextBox>
                         </td>
                     </tr>
                 </table> 
+                <p>
+                    Important: To reset the Cookie and Session inputs and outputs, please click the Reset button below.
+                </p>
+                <asp:Button ID="button_cookie_session_reset" runat="server" Text="Reset" OnClick="button_cookie_session_reset_Click" />
             </div>
             <!-- SolarBot 
                 by Fausto Velazquez -->
@@ -155,6 +164,10 @@
                         </td>
                     </tr>
                 </table>
+                <p>
+                    Important: To reset the SolarBot inputs and outputs, please click the Reset button below.
+                </p>
+                <asp:Button ID="button_solarbot_reset" runat="server" Text="Reset" OnClick="button_solarbot_reset_Click" />
             </div>
 
             <!-- Email Service 
@@ -192,6 +205,10 @@
                         </td>
                     </tr>
                 </table>
+                <p>
+                    Important: To reset the Email Service inputs and outputs, please click the Reset button below.
+                </p>
+                <asp:Button ID="button_email_reset" runat="server" Text="Reset" OnClick="button_email_reset_Click"/>
             </div>
             <!-- Encryption/Decryption
                 by Faris Abujolban -->
@@ -235,7 +252,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:Button ID="button_reset_encrypt_decrypt" runat="server" Text="Reset" />
+                                <asp:Button ID="button_reset_encrypt_decrypt" runat="server" Text="Reset" OnClick="button_reset_encrypt_decrypt_Click"/>
                             </td>
                         </tr>
                     </table>                    
@@ -272,7 +289,7 @@
                     <br />should you opt in for solar panels.
                     <br />Note: Please enter only numerical values.
                 </p>
-                <table>
+                <table cellpadding="4">
                     <tr>
                         <td>
                             <asp:Label ID="label_zipcode" runat="server" Text="Zipcode"></asp:Label>
@@ -297,7 +314,19 @@
                             <asp:TextBox ID="textbox_solar_output" runat="server" Text="" Enabled="false"></asp:TextBox>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <asp:Button ID="button_solar" runat="server" Text="Submit" OnClick="button_solar_Click" />
+                        </td>
+                        <td>
+                            <asp:TextBox ID="textbox_solar_error_output" runat="server" style="border:none;" Enabled="false"></asp:TextBox>
+                        </td>
+                    </tr>
                 </table>
+                <p>
+                    Important: To reset the Solar Service inputs and outputs, please click the Reset button below.
+                </p>
+                <asp:Button ID="button_solar_reset" runat="server" Text="Reset" OnClick="button_solar_reset_Click" />
             </div>
             
             <!-- Contribution Table -->
@@ -334,7 +363,10 @@
                         <tr>
                             <td>Faris Abujolban</td>
                             <td>Email Service (RESTful)</td>
-                            <td>[input/output]</td>
+                            <td>
+                                Input: message (string), email address (string)<br />
+                                Output: success/failure message (string)
+                            </td>
                             <td>[description]</td>
                         </tr>
                         <!-- Contribution #3 -->
@@ -350,7 +382,10 @@
                         <tr>
                             <td>Fausto Velazquez</td>
                             <td>Solar ChatBot (RESTful)</td>
-                            <td>[input/output]</td>
+                            <td>
+                                Input: question about solar energy (string) <br />
+                                Output: answer to the question (string)
+                            </td>
                             <td>[description]</td>
                         </tr>
                         <!-- Contribution #5 -->
@@ -366,7 +401,7 @@
                         <tr>
                             <td>Naif Lohani</td>
                             <td>Solar Service (RESTful)</td>
-                            <td>Input: zipcode, roof area <br />Output: annual kWh</td>
+                            <td>Input: zipcode (string), roof area (double) <br />Output: annual kWh</td>
                             <td>Estimates annual solar energy generation based on available roof area and average solar irradiance.</td>
                         </tr>
                     </tbody>

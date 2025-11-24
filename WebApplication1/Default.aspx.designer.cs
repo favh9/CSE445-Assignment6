@@ -96,13 +96,13 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button button_store_cookie;
 
         /// <summary>
-        /// textbox_output_store_cookie control.
+        /// textbox_store_cookie control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox_output_store_cookie;
+        protected global::System.Web.UI.WebControls.TextBox textbox_store_cookie;
 
         /// <summary>
         /// button_retrieve_cookie control.
@@ -132,13 +132,13 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button button_store_session;
 
         /// <summary>
-        /// textbox_output_store_session control.
+        /// textbox_store_session control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox_output_store_session;
+        protected global::System.Web.UI.WebControls.TextBox textbox_store_session;
 
         /// <summary>
         /// button_retrieve_session control.
@@ -157,6 +157,15 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox_output_retrieve_session;
+
+        /// <summary>
+        /// button_cookie_session_reset control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button button_cookie_session_reset;
 
         /// <summary>
         /// label_solarbot_input control.
@@ -213,6 +222,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox textbox_solarbot_output;
 
         /// <summary>
+        /// button_solarbot_reset control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button button_solarbot_reset;
+
+        /// <summary>
         /// label_email_content control.
         /// </summary>
         /// <remarks>
@@ -265,6 +283,15 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox_email_result;
+
+        /// <summary>
+        /// button_email_reset control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button button_email_reset;
 
         /// <summary>
         /// label_encrypt_input control.
@@ -427,5 +454,32 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textbox_solar_output;
+
+        /// <summary>
+        /// button_solar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button button_solar;
+
+        /// <summary>
+        /// textbox_solar_error_output control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textbox_solar_error_output;
+
+        /// <summary>
+        /// button_solar_reset control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button button_solar_reset;
     }
 }
