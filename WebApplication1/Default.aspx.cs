@@ -15,25 +15,7 @@ namespace WebApplication1
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            ServiceClient client2 = new ServiceClient();
-            //generate captcha image
-            var captcha_string = GetRandomString(6);
-            Stream stream = client2.GetImage(captcha_string);
-
-            MemoryStream ms = new MemoryStream();
-            stream.CopyTo(ms);
-            byte[] image_bytes = ms.ToArray();
-            string base_64_string = Convert.ToBase64String(image_bytes);
-            image_captcha.ImageUrl = "data:image/png;base64," + base_64_string;
-
-            client2.Close();
-
-            // set session state
-            Session["captcha"] = captcha_string;
-
-
-
-
+            refresh_captcha();
         }
 
         // Testing Faris Abujolban
@@ -98,7 +80,7 @@ namespace WebApplication1
             return new string(buffer);
         }
 
-        protected void button_refresh_captcha_Click(object sender, EventArgs e)
+        private void refresh_captcha()
         {
             // WCF-based WSDL-SOAP service with two operations:
             // Stream GetImage() and GetVerifierString(string length)
@@ -118,6 +100,11 @@ namespace WebApplication1
 
             // set session state
             Session["captcha"] = captcha_string;
+        }
+
+        protected void button_refresh_captcha_Click(object sender, EventArgs e)
+        {
+            refresh_captcha();
         }
 
         protected async void button_solarbot_button_Click(object sender, EventArgs e)

@@ -51,6 +51,24 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox textbox_login_error;
 
         /// <summary>
+        /// hyperlink_member_signup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hyperlink_member_signup;
+
+        /// <summary>
+        /// hyperlink_staff_login control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hyperlink_staff_login;
+
+        /// <summary>
         /// image_captcha control.
         /// </summary>
         /// <remarks>

@@ -42,9 +42,9 @@
                 by Fausto Velazquez -->
             <div>
                 <h3>Login + CAPTCHA by Fausto Velazquez</h3>
-                <p>Please use the following textboxes to login. If the credentials and captcha are correct, you will be redirected to the 
-                    <br />Member or Staff page based on your role.
-                    <br />Note: Enter your username and password, then enter the correct captcha.
+                <p>Members login here. If you are new member or staff, please use the links below.
+                    <br />Note: Enter your username and password, then enter the correct captcha,
+                    <br />and click the Sign in button to continue.
                 </p>
                 <div>
                     <!-- Login -->
@@ -64,7 +64,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="submit" name="btnLogin" value="Login" id="btnLogin" />
+                                    <input type="submit" name="btnLogin" value="Sign in" id="btnLogin" />
                                 </td>
                                 <td>
                                     <!-- output error message -->
@@ -72,7 +72,12 @@
                                 </td>
                             </tr>
                         </table>
-                        <p>No account? Try Test Account: Bob 123</p>
+                        <p>No account? Sign up
+                        <asp:HyperLink ID="hyperlink_member_signup" runat="server" NavigateUrl="~/Member_Sign_Up.aspx">here</asp:HyperLink>
+                        </p>
+                        <p>Staff? Login 
+                        <asp:HyperLink ID="hyperlink_staff_login" runat="server" NavigateUrl="~/Staff_Login.aspx">here</asp:HyperLink>
+                        </p>
                     </div>
                     <!-- CAPTCHA -->
                     <div>
@@ -80,7 +85,7 @@
                         <br /> <br />
                         <asp:Button ID="button_refresh_captcha" runat="server" Text="Refresh captcha" OnClick="button_refresh_captcha_Click" />
                         <br /> <br />
-                        <asp:Label ID="label_captcha_input" runat="server" Text="Please enter the string here"></asp:Label>
+                        <asp:Label ID="label_captcha_input" runat="server" Text="Please enter the captcha here"></asp:Label>
                         <asp:TextBox ID="textBox_captcha_input" runat="server" Width="50"></asp:TextBox>
                     </div>
                 </div>
@@ -179,7 +184,7 @@
                     <br />Finally, click the Send button.
                     <br />Note: use the textboxes below to send an email.
                 </p>
-                <table cellpaddiong="4">
+                <table cellpadding="4">
                     <tr>
                         <td>
                              <asp:Label ID="label_email_content" runat="server" Text="Input message:"></asp:Label>
@@ -386,7 +391,7 @@
                                 Input: question about solar energy (string) <br />
                                 Output: answer to the question (string)
                             </td>
-                            <td>[description]</td>
+                            <td>Takes user questions and provides helpful information about solar energy, for example, answering questions like 'What is solar energy?’</td>
                         </tr>
                         <!-- Contribution #5 -->
                         <!-- by Naif Lohani -->
