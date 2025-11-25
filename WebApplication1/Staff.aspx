@@ -9,35 +9,9 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <!-- Login + CAPTCHA  
-                by Fausto Velazquez -->
+            <!-- Title -->
             <div>
-                <h3>Staff Login</h3>
-                <div>
-                    <!-- Login -->
-                    <div>
-                        <table cellpadding="4">
-                            <tr>
-                                <td> User Name:  </td>
-                                <td>
-                                    <input name="txtUserName" type="text" id="txtUserName" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> Password: </td>
-                                <td>
-                                    <input name="txtPassword" type="password" id="txtPassword" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="submit" name="btnLogin" value="Submit" id="btnLogin" />
-                                </td>
-                            </tr>
-                        </table>
-                        <p>No account? Try Test Account: Bob 123</p>
-                    </div>
-                </div>
+                <h3>Staff Page</h3>
             </div>
             <!-- Back button -->
             <div>
