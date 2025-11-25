@@ -9,45 +9,26 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <!-- Login + CAPTCHA  
-                by Fausto Velazquez -->
-            <div>
-                <h3>Member Sign up</h3>
-                <div>
-                    <!-- Login -->
-                    <div>
-                        <table cellpadding="4">
-                            <tr>
-                                <td> User Name:  </td>
-                                <td>
-                                    <input name="txtUserName" type="text" id="txtUserName" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> Password: </td>
-                                <td>
-                                    <input name="txtPassword" type="password" id="txtPassword" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> Confirm Password: </td>
-                                <td>
-                                    <input name="txtPassword" type="password" id="txtConfirmPassword" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="submit" name="btnLogin" value="Submit" id="btnLogin" />
-                                </td>
-                            </tr>
-                        </table>
-                        <p>No account? Try Test Account: Bob 123</p>
-                    </div>
-                </div>
-            </div>
             <!-- Back button -->
             <div>
-                <asp:Button ID="button_back_to_default" runat="server" Text="Back to default" PostBackUrl="~/Default.aspx"/>
+                <asp:Button ID="button_back_to_default" runat="server" Text="Back to default" PostBackUrl="~/Default.aspx" />
+            </div>
+            <!-- Title -->
+            <div>
+                <h3>Member Page</h3>
+            </div>
+
+            <!-- Contents/Body -->
+            <div>
+                <!-- Chat Container -->
+                <div>
+                    <asp:Panel ID="panel_chatbox" runat="server" Width="200" Height="200"></asp:Panel>
+                </div>
+                <!-- Input Container -->
+                <div>
+                    <asp:TextBox ID="textbox_message" runat="server"></asp:TextBox>
+                    <asp:Button ID="button_send_message" runat="server" Text="Send" OnClick="button_send_message_Click" />
+                </div>
             </div>
         </div>
     </form>
