@@ -91,7 +91,9 @@
     </None>
     <Content Include="Default.aspx" />
     <Content Include="Member.aspx" />
+    <Content Include="Member_Sign_Up.aspx" />
     <Content Include="Staff.aspx" />
+    <Content Include="Staff_Login.aspx" />
     <Content Include="Web.config" />
     <None Include="Connected Services\EmailService\WebService1.wsdl" />
     <None Include="Connected Services\ImageVerifier\Service.wsdl" />
@@ -130,6 +132,13 @@
     <Compile Include="Member.aspx.designer.cs">
       <DependentUpon>Member.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Member_Sign_Up.aspx.cs">
+      <DependentUpon>Member_Sign_Up.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member_Sign_Up.aspx.designer.cs">
+      <DependentUpon>Member_Sign_Up.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Staff.aspx.cs">
       <DependentUpon>Staff.aspx</DependentUpon>
@@ -137,6 +146,13 @@
     </Compile>
     <Compile Include="Staff.aspx.designer.cs">
       <DependentUpon>Staff.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Staff_Login.aspx.cs">
+      <DependentUpon>Staff_Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Staff_Login.aspx.designer.cs">
+      <DependentUpon>Staff_Login.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
