@@ -367,7 +367,7 @@
                                 Input: message (string), email address (string)<br />
                                 Output: success/failure message (string)
                             </td>
-                            <td>[description]</td>
+                            <td>Takes a message and an email address and sends a message to that email address</td>
                         </tr>
                         <!-- Contribution #3 -->
                         <!-- by Fausto Velazquez -->
