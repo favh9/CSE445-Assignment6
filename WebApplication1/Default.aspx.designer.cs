@@ -42,13 +42,22 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button button_staff_login;
 
         /// <summary>
-        /// textbox_login_error control.
+        /// button_login control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textbox_login_error;
+        protected global::System.Web.UI.WebControls.Button button_login;
+
+        /// <summary>
+        /// label_login_error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label label_login_error;
 
         /// <summary>
         /// hyperlink_member_signup control.

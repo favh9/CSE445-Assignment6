@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Web;
 using WebApplication1.ImageVerifier;
+using ClassLibrary1;
+using System.Xml.Linq;
 
 namespace WebApplication1
 {
@@ -15,10 +17,13 @@ namespace WebApplication1
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            refresh_captcha();
+            // initial startup; everything that will be done
+            // when someone opens this page
+            if (!IsPostBack)
+                refresh_captcha();
         }
 
-        // Testing Faris Abujolban
+        // By Faris Abujolban
         protected void button_encrypt_click(object sender, EventArgs e)
         {
             try
@@ -34,7 +39,7 @@ namespace WebApplication1
             }
         }
 
-        // Testing Faris Abujolban
+        // By Faris Abujolban
         protected void button_decrypt_click(object sender, EventArgs e)
         {
             try
@@ -50,7 +55,7 @@ namespace WebApplication1
             }
         }
 
-        // Testing Faris Abujolban
+        // By Faris Abujolban
         protected void button_submit_email_click(object sender, EventArgs e)
         {
             EmailService.WebService1SoapClient client = new EmailService.WebService1SoapClient();
@@ -65,6 +70,7 @@ namespace WebApplication1
         }
 
         // generate a random string
+        // By Fausto Velazquez
         private string GetRandomString(int length)
         {
             Random random = new Random();
@@ -80,6 +86,7 @@ namespace WebApplication1
             return new string(buffer);
         }
 
+        // By Fausto Velazquez
         private void refresh_captcha()
         {
             // WCF-based WSDL-SOAP service with two operations:
@@ -102,11 +109,13 @@ namespace WebApplication1
             Session["captcha"] = captcha_string;
         }
 
+        // By Fausto Velazquez
         protected void button_refresh_captcha_Click(object sender, EventArgs e)
         {
             refresh_captcha();
         }
 
+        // By Fausto Velazquez
         protected async void button_solarbot_button_Click(object sender, EventArgs e)
         {
             const string base_url = "https://localhost:44389/";
@@ -149,6 +158,7 @@ namespace WebApplication1
 
         }
 
+        // By Fausto Velazquez
         protected void button_store_cookie_Click(object sender, EventArgs e)
         {
             string cookie_name = "test_cookie";
@@ -161,6 +171,7 @@ namespace WebApplication1
             Response.Cookies.Add(cookie);
         }
 
+        // By Fausto Velazquez
         protected void button_retrieve_cookie_Click(object sender, EventArgs e)
         {
             HttpCookie cookie = Request.Cookies["test_cookie"];
@@ -174,6 +185,7 @@ namespace WebApplication1
 
         }
 
+        // By Fausto Velazquez
         protected void button_store_session_Click(object sender, EventArgs e)
         {
             var session_name = "test_session";
@@ -181,6 +193,7 @@ namespace WebApplication1
             Session[session_name] = session_value;
         }
 
+        // By Fausto Velazquez
         protected void button_retrieve_session_Click(object sender, EventArgs e)
         {
             var session_name = "test_session";
@@ -194,6 +207,7 @@ namespace WebApplication1
                 textbox_output_retrieve_session.Text = session_value;
         }
 
+        // By Naif Lohani
         protected async void button_solar_Click(object sender, EventArgs e)
         {
             string string_zipcode = textbox_zipcode.Text;
@@ -248,6 +262,8 @@ namespace WebApplication1
                 return;
             }
         }
+
+        // By Fausto Velazquez
         protected void button_cookie_session_reset_Click(Object sender, EventArgs e)
         {
 
@@ -257,18 +273,22 @@ namespace WebApplication1
             textbox_output_retrieve_session.Text = "";
         }
 
+        // By Fausto Velazquez
         protected void button_solarbot_reset_Click(Object sender, EventArgs e)
         {
             textbox_solarbot_input.Text = "";
             textbox_solarbot_output.Text = "";
         }
 
+        // By Fausto Velazquez
         protected void button_reset_encrypt_decrypt_Click(Object sender, EventArgs e)
         {
             textbox_encrypt_input.Text = "";
             textbox_encrypt_result.Text = "";
             textbox_decrypt_result.Text = "";
         }
+
+        // By Fausto Velazquez
         protected void button_email_reset_Click(Object sender, EventArgs e)
         {
 
@@ -277,6 +297,7 @@ namespace WebApplication1
             textbox_email_result.Text = "";
         }
 
+        // By Fausto Velazquez
         protected void button_solar_reset_Click(Object sender, EventArgs e)
         {
 
@@ -284,6 +305,95 @@ namespace WebApplication1
             textbox_roof_area.Text = "";
             textbox_solar_output.Text = "";
             textbox_solar_error_output.Text = "";
+        }
+
+        // By Fausto Velazquez
+        protected void auth_login_Click(Object sender, EventArgs e)
+        {
+            var username = Request.Form["input_username"];
+            var password = Request.Form["input_password"];
+            string error = "Authentication failed, please try again";
+
+            if (!is_captcha_valid())
+            {
+                label_login_error.Text = error;
+                return;
+            }
+                
+            if (username == null || password == null)
+            {
+                label_login_error.Text = error;
+                return;
+            }
+
+            if (member_exists(username))
+            {
+                Response.Redirect("~/Member.aspx");
+                return;
+            }
+            else
+            {
+                label_login_error.Text = "An error has occurred";
+            }
+                
+
+        }
+
+        // By Fausto Velazquez
+        private bool is_captcha_valid()
+        {
+            // get the captcha secret message
+            // get the user's input
+            string captcha = Session["captcha"].ToString();
+            string user_attempt = textBox_captcha_input.Text;
+
+            // validate the captcha attempt
+            if (user_attempt == null || user_attempt == "")
+                return false;
+
+            if (user_attempt == captcha)
+                return true;
+            else
+                return false;
+        }
+
+        // By Fausto Velazquez
+        private bool member_exists(string username)
+        {
+            string filepath = Server.MapPath("~/Member.xml");
+
+            // search for username in xml file
+            XDocument doc = XDocument.Load(filepath);
+
+            foreach(XElement member in doc.Descendants("Member"))
+            {
+                string member_username = member.Element("Username").Value;
+                if (member_username == username)
+                    return true;
+            }
+
+            // exhausted all possible members in file, return false
+            return false;
+            
+        }
+
+        // By Fausto Velazquez
+        private bool add_user()
+        {
+
+            // access DLL library 
+            Class1 c = new Class1();
+
+            // password encryption
+            string password = "";
+            c.Encrypt(password);
+
+            // store username in xml
+            // ...
+
+            // store encrypted password in xml
+            // ...
+            return false;
         }
     }
 }

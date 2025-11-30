@@ -53,22 +53,22 @@
                             <tr>
                                 <td> User Name:  </td>
                                 <td>
-                                    <input name="txtUserName" type="text" id="txtUserName" />
+                                    <input name="input_username" type="text" id="txtUserName" />
                                 </td>
                             </tr>
                             <tr>
                                 <td> Password: </td>
                                 <td>
-                                    <input name="txtPassword" type="password" id="txtPassword" />
+                                    <input name="input_password" type="password" id="txtPassword" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="submit" name="btnLogin" value="Sign in" id="btnLogin" />
+                                    <asp:Button ID="button_login" runat="server" Text="Sign in" OnClick="auth_login_Click"/>
                                 </td>
                                 <td>
                                     <!-- output error message -->
-                                    <asp:TextBox ID="textbox_login_error" runat="server" style="border: none; color: red;" Enabled="false"></asp:TextBox>
+                                    <asp:Label ID="label_login_error" runat="server" style="border: none; color: red;" Enabled="false"></asp:Label>
                                 </td>
                             </tr>
                         </table>
