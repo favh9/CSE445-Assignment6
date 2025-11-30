@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Member.aspx.cs" Inherits="WebApplication1.Member" %>
+﻿<%@ Page Language="C#" Async="true" MaintainScrollPositionOnPostback="true" AutoEventWireup="true" CodeBehind="Member.aspx.cs" Inherits="WebApplication1.Member" %>
 
 <!DOCTYPE html>
 
@@ -22,12 +22,12 @@
             <div>
                 <!-- Chat Container -->
                 <div>
-                    <asp:Panel ID="panel_chatbox" runat="server" Width="200" Height="200"></asp:Panel>
+                    <asp:Panel ID="panel_chatbox" runat="server" Width="600" Height="600" Style="overflow: scroll;" ScrollBars="Both"></asp:Panel>
                 </div>
                 <!-- Input Container -->
                 <div>
-                    <asp:TextBox ID="textbox_message" runat="server"></asp:TextBox>
-                    <asp:Button ID="button_send_message" runat="server" Text="Send" OnClick="button_send_message_Click" />
+                    <asp:TextBox ID="textbox_message" runat="server" Width="550"></asp:TextBox>
+                    <asp:Button ID="button_send_message" type="sumbit" runat="server" Text="Send" OnClick="button_send_message_Click" />
                 </div>
             </div>
         </div>
