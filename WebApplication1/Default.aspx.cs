@@ -1,14 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using ClassLibrary1;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Configuration;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Web;
-using WebApplication1.ImageVerifier;
-using ClassLibrary1;
+using System.Web.Security;
 using System.Xml.Linq;
+using WebApplication1.ImageVerifier;
 
 namespace WebApplication1
 {
@@ -307,37 +309,136 @@ namespace WebApplication1
             textbox_solar_error_output.Text = "";
         }
 
-        // By Fausto Velazquez
+        // By Naif Lohani
+        private string GetEncryptedPasswordFromXml(string username)
+        {
+            // Example: load XML file, find user element and password element
+            // adjust path / element names to match your data layout
+            var doc = XDocument.Load(Server.MapPath("~/Member.xml"));
+            var user = doc.Root.Elements("Member")
+                         .FirstOrDefault(x => (string)x.Element("Username") == username);
+            return user?.Element("Password")?.Value; // this is the encrypted base64 you stored
+        }
+        // By Naif Lohani
         protected void auth_login_Click(Object sender, EventArgs e)
         {
             var username = Request.Form["input_username"];
             var password = Request.Form["input_password"];
-            string error = "Authentication failed, please try again";
 
+            if (username == null && password == null)
+            {
+                label_login_error.Text = "DEBUG: Did not receive input_username or input_password (check input name attributes).";
+                return;
+            }
+            if (username == null)
+            {
+                label_login_error.Text = "DEBUG: username is null (check <input name=\"input_username\">).";
+                return;
+            }
+            if (password == null)
+            {
+                label_login_error.Text = "DEBUG: password is null (check <input name=\"input_password\">).";
+                return;
+            }
+
+            // Trim to remove accidental whitespace/newlines
+            username = username.Trim();
+            password = password.Trim();
+
+            label_login_error.Text = $"DEBUG: username='{username}' len={username.Length}, password_len={password.Length}";
+
+            // CAPTCHA
             if (!is_captcha_valid())
             {
-                label_login_error.Text = error;
-                return;
-            }
-                
-            if (username == null || password == null)
-            {
-                label_login_error.Text = error;
+                label_login_error.Text = "DEBUG: captcha invalid";
                 return;
             }
 
-            if (member_exists(username))
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
             {
+                label_login_error.Text = "DEBUG: username or password empty after trim";
+                return;
+            }
+
+
+            string encryptedStored;
+            try
+            {
+                encryptedStored = GetEncryptedPasswordFromXml(username);
+            }
+            catch (Exception ex)
+            {
+                label_login_error.Text = "DEBUG: GetEncryptedPasswordFromXml threw: " + ex.Message;
+                return;
+            }
+
+            if (String.IsNullOrEmpty(encryptedStored))
+            {
+                label_login_error.Text = $"DEBUG: No stored password found for '{username}' (check XML lookup).";
+                return;
+            }
+
+            label_login_error.Text = $"DEBUG: Encrypted starts='{encryptedStored.Substring(0, Math.Min(8, encryptedStored.Length))}...' len={encryptedStored.Length}";
+
+            // attempt decrypt
+            string storedPlain;
+            try
+            {
+                ClassLibrary1.Class1 obj = new ClassLibrary1.Class1();
+                storedPlain = obj.Decrypt(encryptedStored);
+            }
+            catch (Exception ex)
+            {
+                label_login_error.Text = "DEBUG: decrypt failed: " + ex.GetType().Name + " - " + ex.Message;
+                return;
+            }
+
+            if (storedPlain == null)
+            {
+                label_login_error.Text = "DEBUG: decrypt returned null";
+                return;
+            }
+
+            label_login_error.Text = $"DEBUG: decrypted_len={storedPlain.Length}, entered_len={password.Length}";
+
+            if (storedPlain.Trim() == password.Trim())
+            {
+                // set cookie/session 
+                string role = "member";              
+                bool isPersistent = true;           
+
+                var ticket = new FormsAuthenticationTicket(
+                    1,                      
+                    username,               
+                    DateTime.Now,           
+                    DateTime.Now.AddHours(8),
+                    isPersistent,
+                    role,                   
+                    FormsAuthentication.FormsCookiePath
+                );
+
+                // encrypt ticket and add to cookie
+                string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+                var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)
+                {
+                    HttpOnly = true,
+                    Secure = Request.IsSecureConnection,   // send only over HTTPS
+                    Expires = ticket.Expiration
+                };
+                Response.Cookies.Add(authCookie);
+
+                label_login_error.Text = "DEBUG: authentication successful (you will be redirected)";
                 Response.Redirect("~/Member.aspx");
                 return;
             }
             else
             {
-                label_login_error.Text = "An error has occurred";
+                label_login_error.Text = "DEBUG: password mismatch after decrypt";
+                return;
             }
-                
-
         }
+
 
         // By Fausto Velazquez
         private bool is_captcha_valid()
