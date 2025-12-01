@@ -24,6 +24,24 @@ namespace WebApplication1
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// button_back_to_default control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button button_back_to_default;
+
+        /// <summary>
+        /// button_submit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button button_submit;
+
+        /// <summary>
         /// image_captcha control.
         /// </summary>
         /// <remarks>
@@ -51,21 +69,12 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Label label_captcha_input;
 
         /// <summary>
-        /// textBox_captcha_input control.
+        /// textbox_captcha_input control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBox_captcha_input;
-
-        /// <summary>
-        /// button_back_to_default control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button button_back_to_default;
+        protected global::System.Web.UI.WebControls.TextBox textbox_captcha_input;
     }
 }
