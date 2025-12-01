@@ -91,6 +91,7 @@
     </None>
     <Content Include="Default.aspx" />
     <Content Include="Member.aspx" />
+    <Content Include="Member.xml" />
     <Content Include="Member_Sign_Up.aspx" />
     <Content Include="Staff.aspx" />
     <Content Include="Staff_Login.aspx" />
