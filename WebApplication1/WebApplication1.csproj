@@ -75,6 +75,7 @@
     <Content Include="Connected Services\EmailService\WebApplication1.EmailService.SendEmailResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Staff.xml" />
     <None Include="Connected Services\EmailService\WebService1.disco" />
     <None Include="Connected Services\EmailService\configuration91.svcinfo" />
     <None Include="Connected Services\EmailService\configuration.svcinfo" />
