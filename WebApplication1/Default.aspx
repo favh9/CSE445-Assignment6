@@ -25,7 +25,7 @@
             <!-- Buttons to navigate to Member and Staff home pages -->
             <div>
                 <h3>Buttons to navigate to Member or Staff page</h3>
-                <table cellpadding="2">
+                <table cellpadding="4">
                     <tr>
                         <td>
                              <asp:Button ID="button_member_login" runat="server" Text="Member" PostBackUrl="~/Member.aspx"/>
@@ -36,11 +36,16 @@
                             <asp:Button ID="button_staff_login" runat="server" Text="Staff" PostBackUrl="~/Staff.aspx"/>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <asp:Label ID="label_nav_error" runat="server" style="border: none; color: red;"></asp:Label>
+                        </td>
+                    </tr>
                 </table>
             </div>
             <!-- Login + CAPTCHA  
                 by Fausto Velazquez -->
-            <div>
+            <div id="login_captcha_window" runat="server">
                 <h3>Login + CAPTCHA by Fausto Velazquez</h3>
                 <p>Members login here. If you are new member or staff, please use the links below.
                     <br />Note: Enter your username and password, then enter the correct captcha,

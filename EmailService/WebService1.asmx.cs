@@ -38,7 +38,7 @@ namespace EmailService
                 client.Send(msg);
                 return "Email sent successfully to: " + toEmail;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return "Error sending email: " + ex.Message;
             }

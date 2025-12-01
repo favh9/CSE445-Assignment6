@@ -13,15 +13,15 @@ namespace WebApplication1
     public partial class Staff : System.Web.UI.Page
     {
 
-        // By Faris Abujolban
         protected void Page_Load(object sender, EventArgs e)
         {
             // Initial Start up; page will set up the following
             if (!IsPostBack)
             {
-                // check if authorized user is accessing this page
+                // if not authorized, redirect to default.aspx
                 if (!staff_is_logged_in())
-                    Response.Redirect("~/Default.aspx");
+                    Response.Redirect("~/Default.aspx?reason=missing_auth");
+
                 LoadUsers();
             }
         }

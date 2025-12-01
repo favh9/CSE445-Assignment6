@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net.Configuration;
@@ -22,7 +23,42 @@ namespace WebApplication1
             // initial startup; everything that will be done
             // when someone opens this page
             if (!IsPostBack)
+            {
                 refresh_captcha();
+            }
+
+            if (is_logged_in())
+            {
+                login_captcha_window.Visible = false;
+            }
+
+            // Check if the URL contains "?reason=..."
+            string reason = Request.QueryString["reason"];
+
+            if (reason == "missing_auth")
+            {
+                label_nav_error.Text = "Error: You are not authorized to perform that request.";
+                label_nav_error.Visible = true;
+            }
+        }
+
+        // By Fausto Velazquez
+        private bool is_logged_in()
+        {
+            // get forms authentication cookie
+            var cookie_name = FormsAuthentication.FormsCookieName;
+            var auth_cookie = Request.Cookies[cookie_name];
+
+            if (auth_cookie != null)
+            {
+                // decrypt the cookie to get the ticket
+                var auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
+                if (auth_ticket != null && 
+                    (auth_ticket.UserData == "member" || 
+                    auth_ticket.UserData == "staff"))
+                    return true;
+            }
+            return false;
         }
 
         // By Faris Abujolban
@@ -319,6 +355,7 @@ namespace WebApplication1
                          .FirstOrDefault(x => (string)x.Element("Username") == username);
             return user?.Element("Password")?.Value; // this is the encrypted base64 you stored
         }
+
         // By Naif Lohani
         protected void auth_login_Click(Object sender, EventArgs e)
         {

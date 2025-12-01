@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -20,7 +21,7 @@ namespace WebApplication1
             {
                 // if not authorized, redirect to default.aspx
                 if (!member_is_logged_in())
-                    Response.Redirect("~/Default.aspx");
+                    Response.Redirect("~/Default.aspx?reason=missing_auth");
 
                 Session["chat_history"] = new List<string>();
             }
@@ -138,6 +139,137 @@ namespace WebApplication1
                 add_message(output, "system");
 
             }
+        }
+
+        // By Naif Lohani
+        protected async void button_solar_Click(object sender, EventArgs e)
+        {
+            string string_zipcode = textbox_zipcode.Text;
+            string string_roof_area = textbox_roof_area.Text;
+
+            string err_msg = "Insufficient data or incorrect data.";
+
+            if (string_zipcode == "" || string_roof_area == "")
+            {
+                textbox_solar_error_output.Text = err_msg;
+                return;
+            }
+
+            if (string_zipcode.Length < 5)
+            {
+                textbox_solar_error_output.Text = err_msg;
+                return;
+            }
+
+            try
+            {
+                // Area and zipcode are numerical values
+                double area = Convert.ToDouble(string_roof_area);
+                double zipcode = Convert.ToInt64(string_zipcode);
+
+                // call Solar Web API
+                // use string_zipcode and area
+                const string base_url = "https://localhost:44308/";
+
+                string endpoint = $"api/solar/calculate?zip={string_zipcode}&roofArea={area}";
+
+                var client = new HttpClient();
+
+                client.BaseAddress = new Uri(base_url);
+
+                string response = "";
+
+                // Send the HTTP GET request
+                response = await client.GetStringAsync(endpoint);
+
+                textbox_solar_output.Text = response;
+            }
+            catch (FormatException)
+            {
+
+                textbox_solar_error_output.Text = err_msg;
+                return;
+            }
+            catch (Exception ex)
+            {
+                textbox_solar_error_output.Text = ex.Message;
+                return;
+            }
+        }
+
+        // By Fausto Velazquez
+        protected void button_solar_reset_Click(Object sender, EventArgs e)
+        {
+
+            textbox_zipcode.Text = "";
+            textbox_roof_area.Text = "";
+            textbox_solar_output.Text = "";
+            textbox_solar_error_output.Text = "";
+        }
+
+        // By Fausto Velazquez
+        protected void button_email_reset_Click(Object sender, EventArgs e)
+        {
+            textbox_email_address.Text = "";
+        }
+
+        // By Faris Abujolban
+        protected void button_submit_email_click(object sender, EventArgs e)
+        {
+            var chat_history = (List<string>)Session["chat_history"];
+
+            EmailService.WebService1SoapClient client = new EmailService.WebService1SoapClient();
+
+            string to_email = textbox_email_address.Text;
+            string message = get_chat_history(chat_history, to_email);
+
+            if (message == "" || to_email == "")
+            {
+                label_submit_email_response.Text = "Email address or chat history is empty.";
+                return;
+            }
+                
+            string result = client.SendEmail(to_email, message);
+
+            client.Close();
+        }
+
+        // By Fausto Velazquez
+        public string get_chat_history(List<string> chatHistory, string recipientEmail)
+        {
+            // Validation: Don't send empty emails
+            if (chatHistory == null || chatHistory.Count == 0)
+            {
+                return "";
+            }
+
+            // Build the email
+            StringBuilder bodyBuilder = new StringBuilder();
+
+            // add the neccessary html code first
+            string html_before = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Document Title</title>\r\n    <!-- Other head elements like CSS links and scripts go here -->\r\n</head>\r\n<body>";
+            bodyBuilder.Append(html_before);
+
+            // build the body contents 
+            bodyBuilder.Append("<h3>Here is your requested chat transcript:</h3>");
+            bodyBuilder.Append("<hr/>"); // Add a horizontal line for neatness
+
+            // Loop through the list
+            foreach (string message in chatHistory)
+            {
+                bodyBuilder.Append(message);
+                bodyBuilder.Append("<br/>");
+            }
+
+            // Add the last bit of html code
+            string html_after = "</body>\r\n</html>";
+            bodyBuilder.Append(html_after);
+
+            // Convert the builder to a standard string
+            string finalEmailBody = bodyBuilder.ToString();
+
+            return finalEmailBody;
+          
         }
     }
 }
