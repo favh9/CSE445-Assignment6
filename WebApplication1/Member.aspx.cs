@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -31,11 +32,17 @@ namespace WebApplication1
         // By Fausto Velazquez
         private bool member_is_logged_in()
         {
-            // check if member cookie exists and if it is a member
-            var cookie = Request.Cookies["UserRole"];
-            if (cookie != null && cookie.Value == "member")
-                return true;
+            // get forms authentication cookie
+            var cookie_name = FormsAuthentication.FormsCookieName;
+            var auth_cookie = Request.Cookies[cookie_name];
 
+            if (auth_cookie != null)
+            {
+                // decrypt the cookie to get the ticket
+                var auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
+                if (auth_ticket != null && auth_ticket.UserData == "member")
+                    return true;
+            }
             return false;
         }
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
@@ -15,10 +16,31 @@ namespace WebApplication1
         // By Faris Abujolban
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Initial Start up; page will set up the following
             if (!IsPostBack)
             {
+                // check if authorized user is accessing this page
+                if (!staff_is_logged_in())
+                    Response.Redirect("~/Default.aspx");
                 LoadUsers();
             }
+        }
+
+        // By Fausto Velazquez
+        private bool staff_is_logged_in()
+        {
+            // get forms authentication cookie
+            var cookie_name = FormsAuthentication.FormsCookieName;
+            var auth_cookie = Request.Cookies[cookie_name];
+
+            if (auth_cookie != null)
+            {
+                // decrypt the cookie to get the ticket
+                var auth_ticket = FormsAuthentication.Decrypt(auth_cookie.Value);
+                if (auth_ticket != null && auth_ticket.UserData == "staff")
+                    return true;
+            }
+            return false;
         }
 
         // By Faris Abujolban
