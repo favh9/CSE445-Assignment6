@@ -23,6 +23,7 @@ namespace WebApplication1
 
         }
 
+        // By Fausto Velazquez
         protected void button_send_message_Click(object sender, EventArgs e)
         {
             // what should happen when the user sends a message?
@@ -41,6 +42,7 @@ namespace WebApplication1
             solar_bot_response(user_message);
         }
 
+        // By Fausto Velazquez
         private void render_chat()
         {
             panel_chatbox.Controls.Clear();
@@ -55,6 +57,7 @@ namespace WebApplication1
 
         }
 
+        // By Fausto Velazquez
         private void add_message(string message, string sender)
         {
             var chat_history = (List<string>)Session["chat_history"];
@@ -67,6 +70,7 @@ namespace WebApplication1
             textbox_message.Text = "";
         }
 
+        // By Fausto Velazquez
         private async void solar_bot_response(string input)
         {
             string output = "";
@@ -111,9 +115,6 @@ namespace WebApplication1
                 add_message(output, "system");
 
             }
-
-
-
         }
     }
 }
