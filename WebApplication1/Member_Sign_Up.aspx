@@ -55,7 +55,7 @@
                         <br />
                         <br />
                         <asp:Label ID="label_captcha_input" runat="server" Text="Please enter the captcha here"></asp:Label>
-                        <asp:TextBox ID="textbox_captcha_input" runat="server" Width="50"></asp:TextBox>
+                        <input name="input_captcha" type="text" Width="50" id="input_captcha" />
                     </div>
                 </div>
             </div>

@@ -108,7 +108,7 @@ namespace WebApplication1
             }
 
             // validate captcha
-            string user_attempt_captcha = textbox_captcha_input.Text;
+            var user_attempt_captcha = Request.Form["input_captcha"];
             if (captcha != user_attempt_captcha)
             {
                 return false;
@@ -130,9 +130,7 @@ namespace WebApplication1
             Class1 c = new Class1();
 
             // password encryption
-            c.Encrypt(password);
-
-            
+            password = c.Encrypt(password);
 
             // adding the new Member
             // define the path
