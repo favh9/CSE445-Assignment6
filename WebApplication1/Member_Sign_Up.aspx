@@ -9,8 +9,12 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <!-- Back button -->
+            <div>
+                <asp:Button ID="button_back_to_default" runat="server" Text="Back to default" PostBackUrl="~/Default.aspx" />
+            </div>
             <!-- Login + CAPTCHA  
-     by Fausto Velazquez -->
+                by Fausto Velazquez -->
             <div>
                 <h3>Member Sign up</h3>
                 <div>
@@ -20,24 +24,24 @@
                             <tr>
                                 <td>User Name:  </td>
                                 <td>
-                                    <input name="txtUserName" type="text" id="txtUserName" />
+                                    <input name="input_username" type="text" id="input_username" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Password: </td>
                                 <td>
-                                    <input name="txtPassword" type="password" id="txtPassword" />
+                                    <input name="input_password" type="password" id="input_password" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Confirm Password: </td>
                                 <td>
-                                    <input name="txtPassword" type="password" id="txtConfirmPassword" />
+                                    <input name="input_confirm_password" type="password" id="input_confirm_password" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="submit" name="btnLogin" value="Submit" id="btnLogin" />
+                                    <asp:Button ID="button_submit" runat="server" Text="Submit" OnCLick="button_submit_Click"/>
                                 </td>
                             </tr>
                         </table>
@@ -51,13 +55,9 @@
                         <br />
                         <br />
                         <asp:Label ID="label_captcha_input" runat="server" Text="Please enter the captcha here"></asp:Label>
-                        <asp:TextBox ID="textBox_captcha_input" runat="server" Width="50"></asp:TextBox>
+                        <asp:TextBox ID="textbox_captcha_input" runat="server" Width="50"></asp:TextBox>
                     </div>
                 </div>
-            </div>
-            <!-- Back button -->
-            <div>
-                <asp:Button ID="button_back_to_default" runat="server" Text="Back to default" PostBackUrl="~/Default.aspx" />
             </div>
         </div>
     </form>

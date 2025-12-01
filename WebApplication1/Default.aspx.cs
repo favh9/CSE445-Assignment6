@@ -376,24 +376,5 @@ namespace WebApplication1
             return false;
             
         }
-
-        // By Fausto Velazquez
-        private bool add_user()
-        {
-
-            // access DLL library 
-            Class1 c = new Class1();
-
-            // password encryption
-            string password = "";
-            c.Encrypt(password);
-
-            // store username in xml
-            // ...
-
-            // store encrypted password in xml
-            // ...
-            return false;
-        }
     }
 }
