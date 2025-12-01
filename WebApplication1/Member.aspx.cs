@@ -24,6 +24,7 @@ namespace WebApplication1
                     Response.Redirect("~/Default.aspx?reason=missing_auth");
 
                 Session["chat_history"] = new List<string>();
+                Session["chat_email"] = new List<string>();
             }
 
             render_chat();
@@ -84,6 +85,12 @@ namespace WebApplication1
         // By Fausto Velazquez
         private void add_message(string message, string sender)
         {
+            // this is for the email
+            var chat_email = (List<string>)Session["chat_email"];
+            var chat_email_element = $"{sender}-{message}\n";
+            chat_email.Add(chat_email_element);
+
+            // this is for the panel
             var chat_history = (List<string>)Session["chat_history"];
             var chat_element = $"<div class='{sender}-message'><b>{sender}:</b> {message}</div>";
             chat_history.Add(chat_element);
@@ -216,7 +223,7 @@ namespace WebApplication1
         // By Faris Abujolban
         protected void button_submit_email_click(object sender, EventArgs e)
         {
-            var chat_history = (List<string>)Session["chat_history"];
+            var chat_history = (List<string>)Session["chat_email"];
 
             EmailService.WebService1SoapClient client = new EmailService.WebService1SoapClient();
 
@@ -246,24 +253,15 @@ namespace WebApplication1
             // Build the email
             StringBuilder bodyBuilder = new StringBuilder();
 
-            // add the neccessary html code first
-            string html_before = "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Document Title</title>\r\n    <!-- Other head elements like CSS links and scripts go here -->\r\n</head>\r\n<body>";
-            bodyBuilder.Append(html_before);
-
             // build the body contents 
-            bodyBuilder.Append("<h3>Here is your requested chat transcript:</h3>");
-            bodyBuilder.Append("<hr/>"); // Add a horizontal line for neatness
+            bodyBuilder.Append("Here is your requested chat transcript:\n");
 
             // Loop through the list
             foreach (string message in chatHistory)
             {
                 bodyBuilder.Append(message);
-                bodyBuilder.Append("<br/>");
+                
             }
-
-            // Add the last bit of html code
-            string html_after = "</body>\r\n</html>";
-            bodyBuilder.Append(html_after);
 
             // Convert the builder to a standard string
             string finalEmailBody = bodyBuilder.ToString();
