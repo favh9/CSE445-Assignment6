@@ -74,6 +74,7 @@ namespace WebApplication1
             foreach (XElement staff in doc.Descendants("Staff"))
             {
                 string staff_username = staff.Element("Username").Value;
+                if (staff_username == "TA") { continue; } // skip TA account
                 usernames.Add(staff_username);
             }
 

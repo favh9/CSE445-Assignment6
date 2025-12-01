@@ -28,18 +28,19 @@
                                 <asp:Button 
                                     ID="btnDeleteUser" 
                                     runat="server" 
-                                    Text="DeleteUser"
+                                    Text="Delete User"
                                     CommandName="delete"
                                     CommandArgument='<%# Eval("Username") %>'
                                     OnCommand="DeleteUser_Command" />
                             </td>
                         </tr>
+                        <br />
                     </ItemTemplate>
                 </asp:Repeater>
                 <br />
-                <asp:TextBox ID="tbUsernameInput" runat="server"></asp:TextBox>
-                <asp:TextBox ID="tbPasswordInput" runat="server"></asp:TextBox>
-                <asp:Button ID="addUser" runat="server" Text="addUser" OnClick="addUser_Click"/>
+                <asp:TextBox ID="tbUsernameInput" runat="server" placeholder="Enter Username for Staff"></asp:TextBox>
+                <asp:TextBox ID="tbPasswordInput" runat="server" placeholder="Enter Password for Staff"></asp:TextBox>
+                <asp:Button ID="addUser" runat="server" Text="Add User" OnClick="addUser_Click"/>
             </div>
         </div>
     </form>
