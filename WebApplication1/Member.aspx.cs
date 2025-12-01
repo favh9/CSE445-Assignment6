@@ -14,13 +14,29 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // initial start up; page initially checks the following
             if (!IsPostBack && Session["chat_history"] == null)
             {
+                // if not authorized, redirect to default.aspx
+                if (!member_is_logged_in())
+                    Response.Redirect("~/Default.aspx");
+
                 Session["chat_history"] = new List<string>();
             }
 
             render_chat();
 
+        }
+
+        // By Fausto Velazquez
+        private bool member_is_logged_in()
+        {
+            // check if member cookie exists and if it is a member
+            var cookie = Request.Cookies["UserRole"];
+            if (cookie != null && cookie.Value == "member")
+                return true;
+
+            return false;
         }
 
         // By Fausto Velazquez
