@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <StaffUsers>
-	<!-- Only elements, no attributes -->
-	<Staff>
-		<Username>TA</Username>
-		<Password>CSE445!</Password>
-	</Staff>
+  <!-- Only elements, no attributes -->
+  <Staff>
+    <Username>TA</Username>
+    <Password>cQbELqXSnV8=</Password>
+  </Staff>
 </StaffUsers>

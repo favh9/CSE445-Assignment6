@@ -39,6 +39,9 @@ namespace WebApplication1
             {
                 label_nav_error.Text = "Error: You are not authorized to perform that request.";
                 label_nav_error.Visible = true;
+            } else
+            {
+                label_nav_error.Visible = false;
             }
         }
 
